@@ -1,0 +1,30 @@
+{
+  "name": "draw-together",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r esm server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImFeelingDucky/draw-together.git"
+  },
+  "keywords": [
+    "drawing",
+    "sketching"
+  ],
+  "author": "Max",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ImFeelingDucky/draw-together/issues"
+  },
+  "homepage": "https://github.com/ImFeelingDucky/draw-together#readme",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "koa": "^2.11.0",
+    "koa-static": "^5.0.0",
+    "socket.io": "^2.3.0"
+  }
+}

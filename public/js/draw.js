@@ -1,5 +1,5 @@
 const COLOURS = ['#4C19E5', '#A7EBCA', '#FFFFFF', '#D8EBA7', '#868E80']
-let radius = 0
+let radius = 5
 let socket
 
 // TODO: Refactor to use socket.id instead
@@ -28,9 +28,9 @@ Sketch.create({
       snapshot.forEach(this.drawStroke.bind(this))
     })
   },
-  update () {
-    radius = 10
-  },
+  // update () {
+  //   radius = 10
+  // },
   // Mouse & touch events are merged, so handling touch events by default
   // and powering sketches using the touches array is recommended for easy
   // scalability. If you only need to handle the mouse / desktop browsers,
@@ -84,7 +84,7 @@ clipboard.on('success', () => {
     onclick: null,
     showDuration: '300',
     hideDuration: '1000',
-    timeOut: '5000',
+    timeOut: '3000',
     extendedTimeOut: '1000',
     showEasing: 'swing',
     hideEasing: 'linear',

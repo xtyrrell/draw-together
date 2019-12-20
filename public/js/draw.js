@@ -12,22 +12,24 @@ Sketch.create({
   autoclear: false,
   retina: 'auto',
   setup () {
-    console.log('setup')
+    this.lineCap = 'round'
+    this.lineJoin = 'round'
+
+    // Setup socket listeners
     socket = io(`/sketches?id=${sketchId}`)
 
-    socket.on('message', message => console.log(message))
     socket.on('stroke', stroke => {
       console.log('Received network stroke!')
-
       this.drawStroke(stroke)
+    })
+
+    socket.on('strokes-snapshot', snapshot => {
+      console.log('Received snapshot!', snapshot)
+      snapshot.forEach(this.drawStroke.bind(this))
     })
   },
   update () {
     radius = 10
-  },
-  // Event handlers
-  keydown () {
-    if (this.keys.C) this.clear()
   },
   // Mouse & touch events are merged, so handling touch events by default
   // and powering sketches using the touches array is recommended for easy
@@ -56,7 +58,10 @@ Sketch.create({
       socket.emit('stroke', stroke)
     }
   },
-  drawStroke ({ start, end }) {
+  drawStroke ({ start, end, colour, lineWidth }) {
+    this.fillStyle = this.strokeStyle = colour
+    this.lineWidth = lineWidth
+
     this.beginPath()
     this.moveTo(start.x, start.y)
     this.lineTo(end.x, end.y)

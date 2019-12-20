@@ -14,7 +14,7 @@ Basic description:
 2. If a user lands on /sketches/<sketch-id>, they join room <sketch-id> on the
    /sketches namespace.
 3. When a user connects to a room they get sent a recap of all the strokes and
-   can then reconstruct the sketch up to the current moment. From then on...
+   replay these to reconstruct the sketch up to the current moment. From then on...
 4. ... Any connected user in a room gets all `stroke` events whenever anyone in that
    room draws a stroke
 */
@@ -42,6 +42,7 @@ const httpServer = http.createServer(app.callback())
 const io = SocketIo(httpServer)
 const sketches = io.of('/sketches')
 
+// Record all strokes for all sketchIds
 // TODO: Store these better!
 const strokes = {}
 
@@ -51,10 +52,12 @@ sketches.on('connection', socket => {
 
   // Get the id of this sketch
   const { id } = socket.handshake.query
+  socket.join(id)
 
   console.log(`A user connected to sketch ${id}`)
 
-  socket.join(id)
+  // Replay the recorded strokes in this room
+  if (strokes[id]) socket.emit('strokes-snapshot', strokes[id])
 
   socket.on('message', message => console.log(message))
   socket.on('stroke', stroke => {
@@ -64,6 +67,8 @@ sketches.on('connection', socket => {
     else strokes[id].push(stroke)
 
     // Emit this stroke to all users at this sketch id
+    // TODO: Broadcast this instead of simply emitting it
+    // (so it doesn't get sent to the stroke author)
     sketches.to(id).emit('stroke', stroke)
   })
 })

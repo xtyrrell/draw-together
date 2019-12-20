@@ -70,7 +70,8 @@ sketches.on('connection', socket => {
     // Emit this stroke to all users at this sketch id
     // TODO: Broadcast this instead of simply emitting it
     // (so it doesn't get sent to the stroke author)
-    sketches.to(id).emit('stroke', stroke)
+    // TODO: Verify broadcasting works
+    socket.broadcast.to(id).emit('stroke', stroke)
   })
 })
 

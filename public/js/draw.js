@@ -1,5 +1,4 @@
 const COLOURS = ['#4C19E5', '#A7EBCA', '#FFFFFF', '#D8EBA7', '#868E80']
-let radius = 5
 let socket
 
 // TODO: Refactor to use socket.id instead
@@ -7,23 +6,13 @@ let myId = Math.random()
 
 const sketchId = window.location.pathname.replace('/sketches/', '')
 
-// https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript/4819886#4819886
-const isTouch = (function isTouch () {
-  if (
-    'ontouchstart' in window ||
-    (window.DocumentTouch && document instanceof DocumentTouch)
-  ) {
-    return true
-  }
-
-  const prefixes = ' -webkit- -moz- -o- -ms- '.split(' ')
-  const mq = query => window.matchMedia(query).matches
-
-  // include the 'heartz' as a way to have a non matching MQ to help terminate the join
-  // https://git.io/vznFH
-  const query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('')
-  return mq(query)
-})()
+// If we ever see a `touchstart` event, this must be a touchscreen device
+let isTouch = false
+function markDeviceAsTouch () {
+  isTouch = true
+  window.removeEventListener('touchstart', markDeviceAsTouch)
+}
+window.addEventListener('touchstart', markDeviceAsTouch)
 
 Sketch.create({
   container: document.getElementById('sketch-container'),
@@ -46,9 +35,6 @@ Sketch.create({
       snapshot.forEach(this.drawStroke.bind(this))
     })
   },
-  // update () {
-  //   radius = 10
-  // },
   // Mouse & touch events are merged, so handling touch events by default
   // and powering sketches using the touches array is recommended for easy
   // scalability. If you only need to handle the mouse / desktop browsers,
@@ -61,7 +47,7 @@ Sketch.create({
       this.lineCap = 'round'
       this.lineJoin = 'round'
       this.fillStyle = this.strokeStyle = COLOURS[i % COLOURS.length]
-      this.lineWidth = radius
+      this.lineWidth = 5
 
       const stroke = {
         start: { x: touch.ox, y: touch.oy },

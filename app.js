@@ -22,6 +22,8 @@ Basic description:
 const app = new Koa()
 const router = new Router()
 
+const PORT = process.env.PORT || 3000
+
 // If user lands on /, generate a sketch id for them and redirect them there
 router.get('/', ctx => {
   // Create new sketch id
@@ -54,14 +56,13 @@ sketches.on('connection', socket => {
   const { id } = socket.handshake.query
   socket.join(id)
 
-  console.log(`A user connected to sketch ${id}`)
+  console.log(`A user connected to sketchId ${id}`)
 
   // Replay the recorded strokes in this room
   if (strokes[id]) socket.emit('strokes-snapshot', strokes[id])
 
-  socket.on('message', message => console.log(message))
   socket.on('stroke', stroke => {
-    console.log(`User ${socket.id} drew a stroke in room`, socket.rooms)
+    // console.log(`User ${socket.id} drew a stroke in room`, socket.rooms)
 
     if (!strokes[id]) strokes[id] = [stroke]
     else strokes[id].push(stroke)
@@ -73,4 +74,7 @@ sketches.on('connection', socket => {
   })
 })
 
-httpServer.listen(3000, () => console.log('Listening at http://localhost:3000'))
+httpServer.listen(PORT, () => {
+  const { address, port, family } = httpServer.address()
+  console.log(`Listening on ${family} at ${address}:${port}`)
+})

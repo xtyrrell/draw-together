@@ -4,18 +4,26 @@
 <head>
   <title>Draw Together</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css' />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-  <header class="info">
-    <h1>Draw together with your friends!</h1>
+  <header>
+    <p id='info'>Draw together with your friends! Just share the link and collaborate on sketches online in realtime.
+    </p>
+    <p class='link-container' data-clipboard-target="#link"><span id='link'></span> (Click to copy)</p>
   </header>
-  <div id="sketch-container"></div>
+  <div id='sketch-container'></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sketch.js/1.0/sketch.min.js"
     integrity="sha256-5mHIqTdgvyJzqMFWr499Cwic0Zlr7SEUcErXFCFxvS8=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"
     integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
   <script src="/js/draw.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    crossorigin="anonymous"></script>
+  <script defer src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js'></script>
 </body>
 
 </html>

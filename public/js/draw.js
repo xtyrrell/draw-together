@@ -1,4 +1,4 @@
-const COLOURS = ['#E3EB64', '#A7EBCA', '#FFFFFF', '#D8EBA7', '#868E80']
+const COLOURS = ['#4C19E5', '#A7EBCA', '#FFFFFF', '#D8EBA7', '#868E80']
 let radius = 0
 let socket
 
@@ -67,4 +67,30 @@ Sketch.create({
     this.lineTo(end.x, end.y)
     this.stroke()
   }
+})
+
+const link = document.getElementById('link')
+link.textContent = window.location
+const clipboard = new ClipboardJS('.link-container')
+
+clipboard.on('success', () => {
+  toastr.options = {
+    closeButton: false,
+    debug: true,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: 'toast-top-right',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut'
+  }
+
+  toastr.success('Now send it to your friends and get drawing!', 'Copied!')
 })

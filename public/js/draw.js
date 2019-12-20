@@ -7,6 +7,24 @@ let myId = Math.random()
 
 const sketchId = window.location.pathname.replace('/sketches/', '')
 
+// https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript/4819886#4819886
+const isTouch = (function isTouch () {
+  if (
+    'ontouchstart' in window ||
+    (window.DocumentTouch && document instanceof DocumentTouch)
+  ) {
+    return true
+  }
+
+  const prefixes = ' -webkit- -moz- -o- -ms- '.split(' ')
+  const mq = query => window.matchMedia(query).matches
+
+  // include the 'heartz' as a way to have a non matching MQ to help terminate the join
+  // https://git.io/vznFH
+  const query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('')
+  return mq(query)
+})()
+
 Sketch.create({
   container: document.getElementById('sketch-container'),
   autoclear: false,
@@ -36,7 +54,7 @@ Sketch.create({
   // scalability. If you only need to handle the mouse / desktop browsers,
   // use the 0th touch element and you get wider device support for free.
   touchmove () {
-    if (!this.dragging) return
+    if (!isTouch && !this.dragging) return
 
     for (var i = this.touches.length - 1, touch; i >= 0; i--) {
       touch = this.touches[i]

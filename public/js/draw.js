@@ -1,25 +1,39 @@
 const COLOURS = ['#E3EB64', '#A7EBCA', '#FFFFFF', '#D8EBA7', '#868E80']
-
 let radius = 0
+let socket
+
+// TODO: Refactor to use socket.id instead
+let myId = Math.random()
+
+const sketchId = window.location.pathname.replace('/sketches/', '')
 
 Sketch.create({
   container: document.getElementById('sketch-container'),
   autoclear: false,
   retina: 'auto',
-  setup: () => {
-    // const socket = io()
-    // socket.on('stroke', stroke => console.log(stroke))
+  setup () {
+    console.log('setup')
+    socket = io(`/sketches?id=${sketchId}`)
+
+    socket.on('message', message => console.log(message))
+    socket.on('stroke', stroke => {
+      console.log('Received network stroke!')
+
+      this.drawStroke(stroke)
+    })
   },
-  update: () => (radius = 10),
+  update () {
+    radius = 10
+  },
   // Event handlers
-  keydown: () => {
-    // if (this.keys.C) this.clear()
+  keydown () {
+    if (this.keys.C) this.clear()
   },
   // Mouse & touch events are merged, so handling touch events by default
   // and powering sketches using the touches array is recommended for easy
   // scalability. If you only need to handle the mouse / desktop browsers,
   // use the 0th touch element and you get wider device support for free.
-  touchmove: () => {
+  touchmove () {
     if (!this.dragging) return
 
     for (var i = this.touches.length - 1, touch; i >= 0; i--) {
@@ -28,15 +42,24 @@ Sketch.create({
       this.lineJoin = 'round'
       this.fillStyle = this.strokeStyle = COLOURS[i % COLOURS.length]
       this.lineWidth = radius
-      this.beginPath()
 
-      const { ox, oy, x, y } = touch
+      const stroke = {
+        start: { x: touch.ox, y: touch.oy },
+        end: { x: touch.x, y: touch.y },
+        colour: this.fillStyle,
+        lineWidth: this.lineWidth,
+        author: myId
+      }
 
-      this.moveTo(ox, oy)
-      this.lineTo(x, y)
-      this.stroke()
+      this.drawStroke(stroke)
 
-      // if (socket) socket.emit('stroke', { ox, oy, x, y })
+      socket.emit('stroke', stroke)
     }
+  },
+  drawStroke ({ start, end }) {
+    this.beginPath()
+    this.moveTo(start.x, start.y)
+    this.lineTo(end.x, end.y)
+    this.stroke()
   }
 })

@@ -63,6 +63,9 @@ Sketch.create({
     }
   },
   drawStroke ({ start, end, colour, lineWidth }) {
+    this.lineCap = 'round'
+    this.lineJoin = 'round'
+
     this.fillStyle = this.strokeStyle = colour
     this.lineWidth = lineWidth
 

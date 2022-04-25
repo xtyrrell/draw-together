@@ -3,7 +3,7 @@ Draw Together is a realtime collaborative drawing canvas, like Google Docs for M
 
 Try it out here (open two tabs or share your link with a friend):
 
-[https://xtyrrell-draw-together.herokuapp.com](https://xtyrrell-draw-together.herokuapp.com/)
+[https://draw.xtyrrell.com](https://draw.xtyrrell.com/)
 
 # How it Works
 The app is quite simple. It runs a Koa + socketIO app that listens for connections, and ...

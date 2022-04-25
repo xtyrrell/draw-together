@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo 'No tests written :)'",
-    "start": "npx pm2 start app.js --node-args=\"-r esm\"",
+    "start": "node -r esm app.js",
+    "pm2-start": "npx pm2 start app.js --node-args=\"-r esm\"",
     "dev": "nodemon -- -r esm app.js"
   },
   "engines": {

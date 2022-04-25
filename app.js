@@ -59,7 +59,9 @@ app.use(router.allowedMethods())
 app.use(staticServer('public'))
 
 const httpServer = http.createServer(app.callback())
-const io = SocketIo(httpServer)
+const io = SocketIo(httpServer, {
+  allowEIO3: true
+})
 const sketches = io.of('/sketches')
 
 // Record all strokes for all sketchIds

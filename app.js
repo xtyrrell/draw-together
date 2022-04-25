@@ -10,11 +10,13 @@ import getWordCombination from './utils/words'
 
 /*
 Basic description:
-1. If a user lands on /, generate a sketch id for them and redirect them there.
-2. If a user lands on /sketches/<sketch-id>, they join room <sketch-id> on the
-   /sketches namespace.
+0. The user starts on the homepage, with links to (1) a new sketch and (2) join
+  an existing sketch by entering its ID.
+1. If a user clicks the link to /sketches/new, generate a sketch id for them and redirect them there.
+2. If a user enters an ID of a sketch they want to join, they will end up at /sketches/<sketch-id>, thus joining room <sketch-id> on the
+   /sketches namespace in socketio.
 3. When a user connects to a room they get sent a recap of all the strokes and
-   replay these to reconstruct the sketch up to the current moment. From then on...
+   replays these to reconstruct the sketch up to the current moment. From then on...
 4. ... Any connected user in a room gets all `stroke` events whenever anyone in that
    room draws a stroke
 */
@@ -24,10 +26,26 @@ const router = new Router()
 
 const PORT = process.env.PORT || 3000
 
+router.get('/', async ctx => {
+  await send(ctx, 'public/index.html')
+})
+
 // If user lands on /, generate a sketch id for them and redirect them there
-router.get('/', ctx => {
+router.get('/sketches/new', ctx => {
   // Create new sketch id
   const id = getWordCombination()
+
+  ctx.redirect(`/sketches/${id}`)
+})
+
+router.get('/sketches/join', ctx => {
+  // Join a sketch at the sketchId passed in
+  const id = ctx.query.id
+
+  if (!id) {
+    ctx.status = 404
+    return send(ctx, 'public/404.html')
+  }
 
   ctx.redirect(`/sketches/${id}`)
 })

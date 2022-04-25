@@ -18,13 +18,20 @@
   <script defer src="/js/draw.js"></script>
 </head>
 
-<body>
-  <header>
-    <p id='info'>Draw together with your friends! Just share the link and collaborate on sketches online in realtime. <a href="/">(back home)</a>
-    </p>
-    You are here: <span class='link-container' data-clipboard-target="#link"><span id='link'></span> (Click to copy)</span>
-  </header>
-  <div id='sketch-container'></div>
+<body style="margin: 1rem;">
+  <h1>Welcome to Draw Together.</h1>
+
+  <p>Would you like to...</p>
+
+  <p>→ <a href="/sketches/new">Start a new sketch</a></p>
+
+  <form action="/sketches/join">
+    <label>
+      <span>→ Join an existing sketch</span>
+      <input name="id" type="text" placeholder="butterfly-hills-silver-stream" />
+    </label>
+    <input type="submit" value="Join" />
+  </form>
 </body>
 
 </html>

@@ -4,7 +4,11 @@ let socket
 // TODO: Refactor to use socket.id instead
 let myId = Math.random()
 
-const sketchId = window.location.pathname.replace('/sketches/', '')
+const sketchId = (function getSketchId() {
+  // If you're on a sketch page your ID is "sketches/<...>"
+  // If you're on the homepage, your pathname is "/" and your ID is "home"
+  return window.location.pathname.replace('/', '') || 'home'
+})()
 
 // If we ever see a `touchstart` event, this must be a touchscreen device
 let isTouch = false
@@ -76,28 +80,33 @@ Sketch.create({
   }
 })
 
-const link = document.getElementById('link')
-link.textContent = window.location
-const clipboard = new ClipboardJS('.link-container')
+;(function setupCopiableLink() {
+  const link = document.getElementById('link')
 
-clipboard.on('success', () => {
-  toastr.options = {
-    closeButton: false,
-    debug: true,
-    newestOnTop: false,
-    progressBar: false,
-    positionClass: 'toast-top-right',
-    preventDuplicates: false,
-    onclick: null,
-    showDuration: '300',
-    hideDuration: '1000',
-    timeOut: '3000',
-    extendedTimeOut: '1000',
-    showEasing: 'swing',
-    hideEasing: 'linear',
-    showMethod: 'fadeIn',
-    hideMethod: 'fadeOut'
-  }
+  if (link == null) return
 
-  toastr.success('Now send it to your friends and get drawing!', 'Copied!')
-})
+  link.textContent = window.location
+  const clipboard = new ClipboardJS('.link-container')
+
+  clipboard.on('success', () => {
+    toastr.options = {
+      closeButton: false,
+      debug: true,
+      newestOnTop: false,
+      progressBar: false,
+      positionClass: 'toast-top-right',
+      preventDuplicates: false,
+      onclick: null,
+      showDuration: '300',
+      hideDuration: '1000',
+      timeOut: '3000',
+      extendedTimeOut: '1000',
+      showEasing: 'swing',
+      hideEasing: 'linear',
+      showMethod: 'fadeIn',
+      hideMethod: 'fadeOut'
+    }
+
+    toastr.success('Now send it to your friends and get drawing!', 'Copied!')
+  })
+})()

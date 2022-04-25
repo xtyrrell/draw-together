@@ -16,22 +16,44 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js'></script>
   <script defer src="/js/draw.js"></script>
+
+  <!-- Page styles -->
+  <style>
+    header {
+      padding: 1rem;
+      background: #F0EFE0;
+      /* display: flex; */
+    }
+
+    /* header > * {
+      padding: 5px;
+    } */
+
+  </style>
 </head>
 
-<body style="margin: 1rem;">
-  <h1>Welcome to Draw Together.</h1>
 
-  <p>Would you like to...</p>
+<body>
+  <header>
+    <h1>Welcome to Draw Together.</h1>
 
-  <p>→ <a href="/sketches/new">Start a new sketch</a></p>
 
-  <form action="/sketches/join">
-    <label>
-      <span>→ Join an existing sketch</span>
-      <input name="id" type="text" placeholder="butterfly-hills-silver-stream" />
-    </label>
-    <input type="submit" value="Join" />
-  </form>
+    <p>Would you like to...</p>
+  
+    <div class="action">
+      <p>→ <a href="/sketches/new">Start a new sketch</a></p>
+    
+      <form action="/sketches/join">
+        <label>
+          <span>→ Join an existing sketch</span>
+          <input name="id" type="text" placeholder="butterfly-hills-silver-stream" />
+        </label>
+        <input type="submit" value="Join" />
+      </form>
+    </div>
+  </header>
+
+  <div id='sketch-container'></div>
 </body>
 
 </html>

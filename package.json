@@ -8,6 +8,9 @@
     "start": "npx pm2 start app.js --node-args=\"-r esm\"",
     "dev": "nodemon -- -r esm app.js"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ImFeelingDucky/draw-together.git"

@@ -28,9 +28,9 @@ Then open `http://localhost:3000` and start drawing! Connect other devices on yo
 Or run a server and draw with the world...
 
 ## Production
-This project includes a CircleCI config that deploys to a cloud VM when you push to the master branch. You'll probably want to modify this file `.circleci/config.yml` for your needs.
+You could deploy this to Heroku. You could also deploy this to your own server. If you do, you might want to set that deployment pipeline up with GitHub Actions. This project includes a CircleCI config that deploys to a cloud VM when you push to the master branch; that's another option. You'll probably want to modify this file `.circleci/config.yml` for your needs if you go that route.
 
-It also includes a robust, production-ready Nginx reverse-proxy setup with PM2 as the process manager, so you'll need to make sure a recent version of Nginx is installed on the VM you're planning on deploying to. You'll also want to edit the Nginx config `draw-together.nginx.conf`, such as to set your server's hostname. Open an issue for guidance if necessary.
+The CircleCI config also includes a robust, production-ready Nginx reverse-proxy setup with PM2 as the process manager, so you'll need to make sure a recent version of Nginx is installed on the VM you're planning on deploying to. You'll also want to edit the Nginx config `draw-together.nginx.conf`, such as to set your server's hostname. Open an issue for guidance if necessary.
 
 # A Sorely Missing Feature
 There is one blatant omission: persistent sketch storage.

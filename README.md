@@ -41,3 +41,9 @@ If you're intending on using this for more than one-off sketch jam sessions with
   
 # Contributing
 You're invited to comment, critique and contribute.
+
+# Todos
+
+- [ ] /sketches/browse - a page with a list of top sketches (eg top 5 sketches with most strokes)
+- [ ] on the sketch page, it should show a list of participants, with green active icon if they're active
+- [ ] on the sketch page, it should show red rectangles around the viewports of browsers that are connected (possibly annotated with user names)
